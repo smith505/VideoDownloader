@@ -1,27 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#66BB6A;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#43A047;stop-opacity:1" />
-    </linearGradient>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- Solid bright green background -->
+  <rect width="500" height="500" fill="#00D363"/>
 
-  <!-- Background with more rounded corners -->
-  <rect x="10" y="10" width="180" height="180" rx="45" fill="url(#grad1)"/>
+  <!-- White video screen rounded rectangle -->
+  <rect x="115" y="30" width="270" height="210" rx="25" fill="white"/>
 
-  <!-- Video screen rectangle with rounded corners -->
-  <rect x="50" y="55" width="100" height="65" rx="12" fill="white" opacity="0.95"/>
+  <!-- Green play button triangle inside the screen -->
+  <path d="M 185 90 L 185 180 L 285 135 Z" fill="#00D363"/>
 
-  <!-- Play button inside video screen -->
-  <path d="M 85 75 L 85 100 L 105 87.5 Z" fill="#43A047"/>
+  <!-- White download arrow -->
+  <!-- Left part of arrow -->
+  <path d="M 175 235 L 175 295 L 145 295 L 250 375 L 355 295 L 325 295 L 325 235 Z" fill="white"/>
 
-  <!-- Download arrow (more prominent) -->
-  <g transform="translate(100, 155)">
-    <!-- Arrow shaft -->
-    <rect x="-6" y="-35" width="12" height="35" rx="3" fill="white"/>
-    <!-- Arrow head -->
-    <path d="M 0 5 L -20 -15 L -10 -15 L 0 -5 L 10 -15 L 20 -15 Z" fill="white"/>
-    <!-- Base line with rounded corners -->
-    <rect x="-25" y="8" width="50" height="6" rx="3" fill="white"/>
-  </g>
+  <!-- White horizontal line at bottom -->
+  <rect x="145" y="415" width="210" height="15" rx="7" fill="white"/>
 </svg>
