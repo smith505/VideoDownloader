@@ -386,7 +386,7 @@ def terms():
 def sitemap():
     """Serve sitemap for search engines"""
     response = send_file('sitemap.xml')
-    response.headers['Content-Type'] = 'application/xml'
+    response.headers['Content-Type'] = 'application/xml; charset=utf-8'
     return response
 
 @app.route('/robots.txt')
