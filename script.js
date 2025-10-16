@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:5000/api';
+// Auto-detect API URL based on environment
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api'
+    : '/api';
 
 // Load donation progress on page load
 async function loadDonationProgress() {
@@ -173,17 +176,33 @@ document.getElementById('urlInput').addEventListener('keypress', (e) => {
 });
 
 // Ad Modal Functions
+let adViewStartTime = null;
+
 function showAdModal() {
     const modal = document.getElementById('adModal');
     modal.classList.remove('hidden');
+    adViewStartTime = Date.now();
 
     // Load the ad
     loadAd();
+
+    // Track ad view
+    trackAdView('started');
 }
 
 function closeAdModal() {
     const modal = document.getElementById('adModal');
     modal.classList.add('hidden');
+
+    // Track ad completion if viewed for more than 5 seconds
+    if (adViewStartTime) {
+        const viewDuration = (Date.now() - adViewStartTime) / 1000;
+        if (viewDuration >= 5) {
+            trackAdView('completed', viewDuration);
+            showThankYouMessage();
+        }
+        adViewStartTime = null;
+    }
 
     // Clear the ad container
     const adContainer = document.getElementById('adContainer');
@@ -194,25 +213,33 @@ function loadAd() {
     const adContainer = document.getElementById('adContainer');
 
     // Check if Google AdSense script is loaded
-    if (typeof adsbygoogle !== 'undefined') {
+    if (typeof window.adsbygoogle !== 'undefined') {
         // Create ad element
         adContainer.innerHTML = `
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; min-height: 250px;"
                  data-ad-client="ca-pub-1173343980901195"
+                 data-ad-slot="auto"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         `;
 
         // Push ad
         try {
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            console.log('AdSense ad loaded');
+
+            // Show close button after 5 seconds
+            setTimeout(() => {
+                showCloseButton();
+            }, 5000);
         } catch (e) {
             console.error('AdSense error:', e);
             showAdPlaceholder();
         }
     } else {
         // Show placeholder if AdSense not loaded
+        console.log('AdSense script not loaded yet');
         showAdPlaceholder();
     }
 }
@@ -220,15 +247,74 @@ function loadAd() {
 function showAdPlaceholder() {
     const adContainer = document.getElementById('adContainer');
     adContainer.innerHTML = `
-        <div style="text-align: center; padding: 40px;">
+        <div style="text-align: center; padding: 40px; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
             <p style="color: #666; font-size: 1.1rem; margin-bottom: 15px;">
-                Thank you for your support! 🙏
+                Thank you so much for your support! 🙏
+            </p>
+            <p style="color: #999; font-size: 0.9rem; margin-bottom: 10px;">
+                Ads are pending approval from Google AdSense.
             </p>
             <p style="color: #999; font-size: 0.9rem;">
-                Ad will appear here once configured.
+                Your willingness to help is greatly appreciated!
+            </p>
+            <p style="color: #4CAF50; font-size: 0.9rem; margin-top: 15px;">
+                ✓ Support counted!
             </p>
         </div>
     `;
+
+    // Track the attempt even if no ad shown
+    trackAdView('placeholder_shown');
+
+    // Auto-close after 3 seconds for placeholder
+    setTimeout(() => {
+        closeAdModal();
+    }, 3000);
+}
+
+function showCloseButton() {
+    const modal = document.getElementById('adModal');
+    if (!modal.classList.contains('hidden')) {
+        const modalContent = modal.querySelector('.ad-modal-content');
+        if (modalContent && !modalContent.querySelector('.close-after-timer')) {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'close-after-timer';
+            closeBtn.textContent = 'Close';
+            closeBtn.style.cssText = 'margin-top: 15px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem;';
+            closeBtn.onclick = closeAdModal;
+            modalContent.appendChild(closeBtn);
+        }
+    }
+}
+
+function showThankYouMessage() {
+    const error = document.getElementById('error');
+    error.textContent = 'Thank you for supporting us! 💚';
+    error.style.backgroundColor = '#4CAF50';
+    error.style.color = 'white';
+    error.classList.remove('hidden');
+
+    setTimeout(() => {
+        error.classList.add('hidden');
+        error.style.backgroundColor = '';
+        error.style.color = '';
+    }, 3000);
+}
+
+async function trackAdView(status, duration = 0) {
+    try {
+        // You can implement backend tracking here if needed
+        console.log(`Ad view ${status}`, duration ? `(${duration.toFixed(1)}s)` : '');
+
+        // Optional: Send to analytics
+        // await fetch(`${API_URL}/track-ad`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ status, duration })
+        // });
+    } catch (e) {
+        console.error('Tracking error:', e);
+    }
 }
 
 // Close modal when clicking outside
