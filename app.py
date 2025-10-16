@@ -382,14 +382,6 @@ def terms():
     """Serve the terms of use page"""
     return send_file('terms.html')
 
-@app.route('/sw.js')
-def service_worker():
-    """Serve the PropellerAds service worker"""
-    response = send_file('sw.js')
-    response.headers['Content-Type'] = 'application/javascript'
-    response.headers['Service-Worker-Allowed'] = '/'
-    return response
-
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""

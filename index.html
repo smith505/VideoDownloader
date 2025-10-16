@@ -6,23 +6,6 @@
     <title>Universal Video Downloader</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- PropellerAds Integration -->
-    <script type="text/javascript">
-        // PropellerAds configuration
-        var propellerAdsZoneId = '10049097'; // OnClick (Popunder) for "Watch Ad" button
-        var propellerAdsPushZoneId = '10049059'; // Push Notifications zone
-
-        // Register Service Worker for Push Notifications
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js', { scope: '/' })
-                .then(function(registration) {
-                    console.log('Service Worker registered successfully:', registration);
-                })
-                .catch(function(error) {
-                    console.log('Service Worker registration failed:', error);
-                });
-        }
-    </script>
 </head>
 <body>
     <div class="container">
@@ -33,29 +16,13 @@
             <p>Support this free service (100% optional!)</p>
             <div class="support-buttons">
                 <a href="https://ko-fi.com/universalvideodownloader" target="_blank" class="donate-btn">
-                    ☕ Donate
+                    ☕ Support Us on Ko-fi
                 </a>
-                <button id="watchAdBtn" class="watch-ad-btn" onclick="showAdModal()">
-                    📺 Watch Ad to Support
-                </button>
             </div>
             <div class="goal-bar">
                 <div class="goal-progress" id="goalProgress" style="width: 0%"></div>
             </div>
-            <p class="goal-text">Help us keep this service running - no ads forced, only if you want to help!</p>
-        </div>
-
-        <!-- Ad Modal -->
-        <div id="adModal" class="ad-modal hidden">
-            <div class="ad-modal-content">
-                <span class="ad-close" onclick="closeAdModal()">&times;</span>
-                <h3>Thank you for supporting us!</h3>
-                <p>The ad will play below. You can close this after the ad completes.</p>
-                <div id="adContainer" class="ad-container">
-                    <!-- Ad will be inserted here -->
-                </div>
-                <p class="ad-disclaimer">Watching this ad helps keep our service free for everyone!</p>
-            </div>
+            <p class="goal-text">Help us keep this service completely free and ad-free forever!</p>
         </div>
 
         <div class="input-section">
