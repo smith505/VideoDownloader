@@ -15,7 +15,10 @@
       "Bash(copy \"D:\\Chrome Downloads\\sw.js\" \"C:\\Users\\Cory\\Desktop\\VideoDownloader\\sw.js\")",
       "Bash(git rm:*)",
       "Bash(nslookup:*)",
-      "Bash(timeout:*)"
+      "Bash(timeout:*)",
+      "Bash(copy \"D:\\Chrome Downloads\\logo.png\" \"C:\\Users\\Cory\\Desktop\\VideoDownloader\\logo.png\")",
+      "WebFetch(domain:github.com)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
