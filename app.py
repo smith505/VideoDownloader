@@ -74,7 +74,16 @@ def get_ydl_opts():
             'Sec-Fetch-Mode': 'navigate',
             'Sec-Fetch-Site': 'none',
         },
+
+        # Rate limit handling
+        'ratelimit': 'abort',  # Abort if rate limited
     }
+
+    # Check if proxy is configured via environment variable
+    proxy = os.environ.get('HTTP_PROXY') or os.environ.get('HTTPS_PROXY')
+    if proxy:
+        opts['proxy'] = proxy
+        print(f"[OK] Using proxy: {proxy}")
 
     # CRITICAL: Try cookies files with rotation (for production)
     # Check for multiple cookie files and rotate between them
