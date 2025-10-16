@@ -213,47 +213,60 @@ function loadAd() {
     const adContainer = document.getElementById('adContainer');
 
     // Check if PropellerAds Zone ID is configured
-    if (typeof propellerAdsZoneId !== 'undefined' && propellerAdsZoneId !== 'XXXXXX') {
-        // Load PropellerAds script dynamically
+    if (typeof propellerAdsZoneId !== 'undefined' && propellerAdsZoneId !== 'XXXXXX' && propellerAdsZoneId !== '10049059') {
+        // Show message and trigger OnClick ad
         adContainer.innerHTML = `
-            <div style="text-align: center; padding: 20px; min-height: 250px;">
-                <p style="color: #666; font-size: 1.1rem; margin-bottom: 20px;">
-                    Loading ad, please wait...
+            <div style="text-align: center; padding: 40px; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
+                <p style="color: #666; font-size: 1.2rem; margin-bottom: 20px;">
+                    Thank you for supporting us! 💚
                 </p>
-                <div class="spinner" style="margin: 0 auto;"></div>
+                <p style="color: #555; font-size: 1rem; margin-bottom: 30px;">
+                    The ad will open in a new window.
+                </p>
+                <button id="triggerAdBtn" style="padding: 15px 40px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin: 0 auto;">
+                    Click Here to View Ad
+                </button>
+                <p style="color: #999; font-size: 0.85rem; margin-top: 20px;">
+                    Please disable your ad blocker if the ad doesn't appear
+                </p>
             </div>
         `;
 
-        // Create PropellerAds script element
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.innerHTML = `
-            atOptions = {
-                'key' : '${propellerAdsZoneId}',
-                'format' : 'iframe',
-                'height' : 250,
-                'width' : 300,
-                'params' : {}
-            };
-        `;
-        adContainer.appendChild(script);
+        // Add onclick handler to trigger the ad
+        const triggerBtn = document.getElementById('triggerAdBtn');
+        if (triggerBtn) {
+            triggerBtn.onclick = function() {
+                // Trigger PropellerAds OnClick
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.innerHTML = `
+                    (function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('gloomaug.net',${propellerAdsZoneId},document.createElement('script'))
+                `;
+                document.body.appendChild(script);
 
-        // Load PropellerAds invoke script
-        const invokeScript = document.createElement('script');
-        invokeScript.type = 'text/javascript';
-        invokeScript.src = '//www.topcreativeformat.com/${propellerAdsZoneId}/invoke.js';
-        invokeScript.onload = () => {
-            console.log('PropellerAds loaded');
-            // Show close button after 5 seconds
-            setTimeout(() => {
-                showCloseButton();
-            }, 5000);
-        };
-        invokeScript.onerror = () => {
-            console.error('PropellerAds failed to load');
-            showAdPlaceholder();
-        };
-        adContainer.appendChild(invokeScript);
+                console.log('PropellerAds OnClick triggered');
+
+                // Show thank you message after click
+                adContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
+                        <p style="color: #4CAF50; font-size: 1.3rem; margin-bottom: 15px;">
+                            ✓ Thank You!
+                        </p>
+                        <p style="color: #666; font-size: 1rem; margin-bottom: 15px;">
+                            The ad should open in a new window.
+                        </p>
+                        <p style="color: #999; font-size: 0.9rem;">
+                            Your support helps keep this service free!
+                        </p>
+                    </div>
+                `;
+
+                // Auto close after 3 seconds
+                setTimeout(() => {
+                    closeAdModal();
+                }, 3000);
+            };
+        }
 
     } else {
         // Show placeholder if PropellerAds not configured
