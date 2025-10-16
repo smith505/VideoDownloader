@@ -18,7 +18,10 @@
       "Bash(timeout:*)",
       "Bash(copy \"D:\\Chrome Downloads\\logo.png\" \"C:\\Users\\Cory\\Desktop\\VideoDownloader\\logo.png\")",
       "WebFetch(domain:github.com)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(curl:*)",
+      "Read(//c/Users/Cory/Desktop/**)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
