@@ -227,7 +227,7 @@ function loadAd() {
                     Click Here to View Ad
                 </button>
                 <p style="color: #999; font-size: 0.85rem; margin-top: 20px;">
-                    Please disable your ad blocker if the ad doesn't appear
+                    Please allow popups for this site if blocked
                 </p>
             </div>
         `;
@@ -236,35 +236,46 @@ function loadAd() {
         const triggerBtn = document.getElementById('triggerAdBtn');
         if (triggerBtn) {
             triggerBtn.onclick = function() {
-                // Trigger PropellerAds OnClick
+                // Load PropellerAds official tag
                 const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.innerHTML = `
-                    (function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('gloomaug.net',${propellerAdsZoneId},document.createElement('script'))
-                `;
+                script.src = 'https://fpyf8.com/88/tag.min.js';
+                script.setAttribute('data-zone', '178426');
+                script.async = true;
+                script.setAttribute('data-cfasync', 'false');
+
+                script.onload = function() {
+                    console.log('PropellerAds tag loaded successfully');
+                };
+
+                script.onerror = function() {
+                    console.error('Failed to load PropellerAds tag');
+                };
+
                 document.body.appendChild(script);
 
                 console.log('PropellerAds OnClick triggered');
 
                 // Show thank you message after click
-                adContainer.innerHTML = `
-                    <div style="text-align: center; padding: 40px; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
-                        <p style="color: #4CAF50; font-size: 1.3rem; margin-bottom: 15px;">
-                            ✓ Thank You!
-                        </p>
-                        <p style="color: #666; font-size: 1rem; margin-bottom: 15px;">
-                            The ad should open in a new window.
-                        </p>
-                        <p style="color: #999; font-size: 0.9rem;">
-                            Your support helps keep this service free!
-                        </p>
-                    </div>
-                `;
-
-                // Auto close after 3 seconds
                 setTimeout(() => {
-                    closeAdModal();
-                }, 3000);
+                    adContainer.innerHTML = `
+                        <div style="text-align: center; padding: 40px; min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
+                            <p style="color: #4CAF50; font-size: 1.3rem; margin-bottom: 15px;">
+                                ✓ Thank You!
+                            </p>
+                            <p style="color: #666; font-size: 1rem; margin-bottom: 15px;">
+                                The ad should open in a new window.
+                            </p>
+                            <p style="color: #999; font-size: 0.9rem;">
+                                Your support helps keep this service free!
+                            </p>
+                        </div>
+                    `;
+
+                    // Auto close after 3 seconds
+                    setTimeout(() => {
+                        closeAdModal();
+                    }, 3000);
+                }, 500);
             };
         }
 
