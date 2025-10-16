@@ -12,11 +12,18 @@ import requests
 from bs4 import BeautifulSoup
 
 # Auto-update cookies from cnvmp3.com on startup
+print("=" * 60)
+print("STARTUP: Checking for cookies...")
+print("=" * 60)
 try:
     from update_cookies import update_cookies
     update_cookies()
+    print("[OK] Cookie update completed")
 except Exception as e:
     print(f"[WARNING] Could not auto-update cookies: {e}")
+    import traceback
+    traceback.print_exc()
+print("=" * 60)
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
@@ -468,8 +475,24 @@ def robots():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
-    return jsonify({'status': 'ok'})
+    """Health check endpoint with cookie status"""
+    import glob
+    cookie_files = glob.glob(os.path.join(os.path.dirname(__file__), 'cookies*.txt'))
+
+    cookie_status = []
+    for cf in cookie_files:
+        size = os.path.getsize(cf) if os.path.exists(cf) else 0
+        cookie_status.append({
+            'file': os.path.basename(cf),
+            'size': size,
+            'exists': os.path.exists(cf)
+        })
+
+    return jsonify({
+        'status': 'ok',
+        'cookies_found': len(cookie_files),
+        'cookies': cookie_status
+    })
 
 @app.route('/api/donations', methods=['GET'])
 def get_donations():
