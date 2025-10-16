@@ -27,6 +27,7 @@ def get_ydl_opts():
         'quiet': False,  # Show output for debugging
         'no_warnings': False,
         'nocheckcertificate': True,
+        'cookiesfrombrowser': ('chrome',),  # Use cookies from Chrome browser
         'extractor_args': {
             'youtube': {
                 'player_client': ['mediaconnect'],  # Try mediaconnect client
