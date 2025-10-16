@@ -382,6 +382,11 @@ def terms():
     """Serve the terms of use page"""
     return send_file('terms.html')
 
+@app.route('/contact')
+def contact():
+    """Serve the contact page"""
+    return send_file('contact.html')
+
 @app.route('/sitemap.xml')
 def sitemap():
     """Serve sitemap for search engines"""
