@@ -6,11 +6,11 @@
     </linearGradient>
   </defs>
 
-  <!-- Background with rounded square -->
-  <rect x="10" y="10" width="180" height="180" rx="35" fill="url(#grad1)"/>
+  <!-- Background with more rounded corners -->
+  <rect x="10" y="10" width="180" height="180" rx="45" fill="url(#grad1)"/>
 
-  <!-- Video screen rectangle -->
-  <rect x="50" y="55" width="100" height="65" rx="8" fill="white" opacity="0.95"/>
+  <!-- Video screen rectangle with rounded corners -->
+  <rect x="50" y="55" width="100" height="65" rx="12" fill="white" opacity="0.95"/>
 
   <!-- Play button inside video screen -->
   <path d="M 85 75 L 85 100 L 105 87.5 Z" fill="#43A047"/>
@@ -18,10 +18,10 @@
   <!-- Download arrow (more prominent) -->
   <g transform="translate(100, 155)">
     <!-- Arrow shaft -->
-    <rect x="-6" y="-35" width="12" height="35" rx="2" fill="white"/>
+    <rect x="-6" y="-35" width="12" height="35" rx="3" fill="white"/>
     <!-- Arrow head -->
     <path d="M 0 5 L -20 -15 L -10 -15 L 0 -5 L 10 -15 L 20 -15 Z" fill="white"/>
-    <!-- Base line -->
+    <!-- Base line with rounded corners -->
     <rect x="-25" y="8" width="50" height="6" rx="3" fill="white"/>
   </g>
 </svg>
