@@ -382,6 +382,20 @@ def terms():
     """Serve the terms of use page"""
     return send_file('terms.html')
 
+@app.route('/sitemap.xml')
+def sitemap():
+    """Serve sitemap for search engines"""
+    response = send_file('sitemap.xml')
+    response.headers['Content-Type'] = 'application/xml'
+    return response
+
+@app.route('/robots.txt')
+def robots():
+    """Serve robots.txt for search engines"""
+    response = send_file('robots.txt')
+    response.headers['Content-Type'] = 'text/plain'
+    return response
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
