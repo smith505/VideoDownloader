@@ -7,10 +7,20 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- PropellerAds Integration -->
-    <!-- Replace XXXXXX with your PropellerAds Zone ID after signup -->
     <script type="text/javascript">
-        // PropellerAds configuration - will be loaded when user clicks "Watch Ad"
-        var propellerAdsZoneId = 'XXXXXX'; // Replace with your Zone ID from PropellerAds dashboard
+        // PropellerAds configuration - Zone ID for push notifications
+        var propellerAdsZoneId = '10049059'; // Your PropellerAds Zone ID
+
+        // Register Service Worker for Push Notifications
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then(function(registration) {
+                    console.log('Service Worker registered successfully:', registration);
+                })
+                .catch(function(error) {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
     </script>
 </head>
 <body>
