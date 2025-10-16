@@ -62,14 +62,24 @@ def get_ydl_opts():
         },
     }
 
-    # CRITICAL: Try cookies file first (MUST HAVE for production)
-    cookies_file = os.path.join(os.path.dirname(__file__), 'cookies.txt')
-    if os.path.exists(cookies_file):
-        opts['cookiefile'] = cookies_file
-        print("✓ Using cookies.txt file for authentication")
+    # CRITICAL: Try cookies files with rotation (for production)
+    # Check for multiple cookie files and rotate between them
+    import glob
+    cookie_files = sorted(glob.glob(os.path.join(os.path.dirname(__file__), 'cookies*.txt')))
+
+    if cookie_files:
+        # Rotate through available cookie files
+        # Use hash of current time to pseudo-randomly select
+        import hashlib
+        selector = int(hashlib.md5(str(time.time()).encode()).hexdigest(), 16)
+        selected_cookies = cookie_files[selector % len(cookie_files)]
+
+        opts['cookiefile'] = selected_cookies
+        print(f"[OK] Using {os.path.basename(selected_cookies)} for authentication ({len(cookie_files)} available)")
     else:
-        print("⚠ WARNING: No cookies.txt found! Production downloads may fail.")
+        print("[WARNING] No cookies*.txt files found! Production downloads may fail.")
         print("   Get cookies: https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc")
+        print("   Create multiple accounts and save as: cookies1.txt, cookies2.txt, cookies3.txt")
 
         # Only use browser cookies locally where Chrome is installed
         import platform
