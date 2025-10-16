@@ -4,3 +4,4 @@ yt-dlp==2024.8.6
 pytubefix
 requests
 beautifulsoup4
+gunicorn==21.2.0

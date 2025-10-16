@@ -11,7 +11,7 @@ from pytubefix.cli import on_progress
 import requests
 from bs4 import BeautifulSoup
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
 DOWNLOAD_FOLDER = 'downloads'
@@ -367,6 +367,11 @@ def download_video():
 
     return jsonify({'error': 'All download methods failed'}), 500
 
+@app.route('/')
+def index():
+    """Serve the main page"""
+    return send_file('index.html')
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
@@ -454,4 +459,5 @@ def get_donations():
         return jsonify({'percentage': 0})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=os.environ.get('DEBUG', 'False') == 'True', host='0.0.0.0', port=port)
