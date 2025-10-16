@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Video Downloader</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1173343980901195"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Universal Video Downloader</h1>
+        <p class="subtitle">Download from YouTube, TikTok, X, Reddit, Facebook, Instagram</p>
+
+        <div class="donation-banner">
+            <p>Support this free service (100% optional!)</p>
+            <div class="support-buttons">
+                <a href="https://ko-fi.com/universalvideodownloader" target="_blank" class="donate-btn">
+                    ☕ Donate
+                </a>
+                <button id="watchAdBtn" class="watch-ad-btn" onclick="showAdModal()">
+                    📺 Watch Ad to Support
+                </button>
+            </div>
+            <div class="goal-bar">
+                <div class="goal-progress" id="goalProgress" style="width: 0%"></div>
+            </div>
+            <p class="goal-text">Help us keep this service running - no ads forced, only if you want to help!</p>
+        </div>
+
+        <!-- Ad Modal -->
+        <div id="adModal" class="ad-modal hidden">
+            <div class="ad-modal-content">
+                <span class="ad-close" onclick="closeAdModal()">&times;</span>
+                <h3>Thank you for supporting us!</h3>
+                <p>The ad will play below. You can close this after the ad completes.</p>
+                <div id="adContainer" class="ad-container">
+                    <!-- Ad will be inserted here -->
+                </div>
+                <p class="ad-disclaimer">Watching this ad helps keep our service free for everyone!</p>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="urlInput" placeholder="Paste video URL here..." />
+        </div>
+
+        <div class="format-selection">
+            <div class="format-type">
+                <input type="radio" id="videoType" name="downloadType" value="video" checked>
+                <label for="videoType">Video (MP4)</label>
+            </div>
+            <div class="format-type">
+                <input type="radio" id="audioType" name="downloadType" value="audio">
+                <label for="audioType">Audio (MP3)</label>
+            </div>
+        </div>
+
+        <div class="quality-selection">
+            <label for="qualitySelect" id="qualityLabel">Quality:</label>
+            <select id="qualitySelect">
+                <option value="1080">1080p (Full HD)</option>
+                <option value="720" selected>720p (HD)</option>
+                <option value="480">480p (SD)</option>
+                <option value="360">360p (Low)</option>
+                <option value="144">144p (Very Low)</option>
+            </select>
+        </div>
+
+        <button id="downloadBtn" onclick="downloadFile()" class="download-btn">Download</button>
+
+        <div id="error" class="error hidden"></div>
+
+        <div id="downloadProgress" class="download-progress hidden">
+            <div class="spinner"></div>
+            <p id="progressText">Downloading... Please wait.</p>
+        </div>
+    </div>
+
+    <footer class="info-section">
+        <div class="info-container">
+            <h2>Free Video Downloader & Converter</h2>
+            <p class="info-description">
+                Download and convert videos from YouTube, TikTok, X (Twitter), Instagram, Facebook, and Reddit to MP3 or MP4 format.
+                Our universal video downloader is completely free, fast, and ad-free. Convert videos to audio format and enjoy
+                your favorite content offline with high quality up to 1080p for video and 320kbps for audio.
+            </p>
+
+            <h3>How to Download Videos</h3>
+            <ol class="instructions">
+                <li>Navigate to YouTube, TikTok, or any supported platform and find the video you want to download</li>
+                <li>Copy the video URL from your browser's address bar or using the share button</li>
+                <li>Paste the URL into the input field above</li>
+                <li>Select your preferred format (MP4 for video or MP3 for audio) and quality</li>
+                <li>Click the "Download" button and wait for the conversion to complete</li>
+                <li>Your file will automatically download to your device</li>
+            </ol>
+
+            <h3>Why Choose Our Downloader?</h3>
+            <ul class="features">
+                <li><strong>Completely Free:</strong> No registration, no hidden fees, no premium tiers</li>
+                <li><strong>Ad-Free Experience:</strong> No annoying ads or pop-ups to disrupt your downloads</li>
+                <li><strong>Multi-Platform Support:</strong> Works with YouTube, TikTok, X, Instagram, Facebook, Reddit, and more</li>
+                <li><strong>High Quality:</strong> Download videos up to 1080p and audio up to 320kbps</li>
+                <li><strong>Fast & Reliable:</strong> Quick conversions with multiple quality options</li>
+                <li><strong>Privacy Focused:</strong> We don't collect or store any user data or download history</li>
+                <li><strong>No Software Required:</strong> Works directly in your browser on any device</li>
+                <li><strong>Safe & Secure:</strong> No malware, viruses, or suspicious downloads</li>
+            </ul>
+
+            <p class="support-text">
+                This service is maintained by donations to cover server costs and keep it ad-free forever.
+                If you find this tool useful, please consider supporting us via Ko-fi. Thank you!
+            </p>
+
+            <div class="footer-links">
+                <a href="https://ko-fi.com/universalvideodownloader" target="_blank">Support Us</a>
+                <span>•</span>
+                <a href="mailto:contact@universaldownloader.com">Contact</a>
+                <span>•</span>
+                <a href="#privacy">Privacy Policy</a>
+                <span>•</span>
+                <a href="#terms">Terms of Use</a>
+            </div>
+
+            <p class="copyright">© 2025 Universal Video Downloader - Free Video to MP3/MP4 Converter</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

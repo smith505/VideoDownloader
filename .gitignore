@@ -1,0 +1,26 @@
+# Downloaded videos and audio
+downloads/
+*.mp4
+*.mp3
+*.m4a
+*.webm
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.env
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
