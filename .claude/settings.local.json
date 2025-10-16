@@ -14,7 +14,8 @@
       "Read(//d/Chrome Downloads/**)",
       "Bash(copy \"D:\\Chrome Downloads\\sw.js\" \"C:\\Users\\Cory\\Desktop\\VideoDownloader\\sw.js\")",
       "Bash(git rm:*)",
-      "Bash(nslookup:*)"
+      "Bash(nslookup:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []
