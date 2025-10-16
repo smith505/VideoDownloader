@@ -10,7 +10,9 @@
       "Bash(ffmpeg:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Read(//d/Chrome Downloads/**)",
+      "Bash(copy \"D:\\Chrome Downloads\\sw.js\" \"C:\\Users\\Cory\\Desktop\\VideoDownloader\\sw.js\")"
     ],
     "deny": [],
     "ask": []
