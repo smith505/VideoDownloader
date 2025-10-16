@@ -212,34 +212,52 @@ function closeAdModal() {
 function loadAd() {
     const adContainer = document.getElementById('adContainer');
 
-    // Check if Google AdSense script is loaded
-    if (typeof window.adsbygoogle !== 'undefined') {
-        // Create ad element
+    // Check if PropellerAds Zone ID is configured
+    if (typeof propellerAdsZoneId !== 'undefined' && propellerAdsZoneId !== 'XXXXXX') {
+        // Load PropellerAds script dynamically
         adContainer.innerHTML = `
-            <ins class="adsbygoogle"
-                 style="display:block; min-height: 250px;"
-                 data-ad-client="ca-pub-1173343980901195"
-                 data-ad-slot="auto"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <div style="text-align: center; padding: 20px; min-height: 250px;">
+                <p style="color: #666; font-size: 1.1rem; margin-bottom: 20px;">
+                    Loading ad, please wait...
+                </p>
+                <div class="spinner" style="margin: 0 auto;"></div>
+            </div>
         `;
 
-        // Push ad
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-            console.log('AdSense ad loaded');
+        // Create PropellerAds script element
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.innerHTML = `
+            atOptions = {
+                'key' : '${propellerAdsZoneId}',
+                'format' : 'iframe',
+                'height' : 250,
+                'width' : 300,
+                'params' : {}
+            };
+        `;
+        adContainer.appendChild(script);
 
+        // Load PropellerAds invoke script
+        const invokeScript = document.createElement('script');
+        invokeScript.type = 'text/javascript';
+        invokeScript.src = '//www.topcreativeformat.com/${propellerAdsZoneId}/invoke.js';
+        invokeScript.onload = () => {
+            console.log('PropellerAds loaded');
             // Show close button after 5 seconds
             setTimeout(() => {
                 showCloseButton();
             }, 5000);
-        } catch (e) {
-            console.error('AdSense error:', e);
+        };
+        invokeScript.onerror = () => {
+            console.error('PropellerAds failed to load');
             showAdPlaceholder();
-        }
+        };
+        adContainer.appendChild(invokeScript);
+
     } else {
-        // Show placeholder if AdSense not loaded
-        console.log('AdSense script not loaded yet');
+        // Show placeholder if PropellerAds not configured
+        console.log('PropellerAds not configured yet');
         showAdPlaceholder();
     }
 }
@@ -252,7 +270,7 @@ function showAdPlaceholder() {
                 Thank you so much for your support! 🙏
             </p>
             <p style="color: #999; font-size: 0.9rem; margin-bottom: 10px;">
-                Ads are pending approval from Google AdSense.
+                Ads are not yet configured. Once PropellerAds is set up, ads will appear here.
             </p>
             <p style="color: #999; font-size: 0.9rem;">
                 Your willingness to help is greatly appreciated!
@@ -260,16 +278,19 @@ function showAdPlaceholder() {
             <p style="color: #4CAF50; font-size: 0.9rem; margin-top: 15px;">
                 ✓ Support counted!
             </p>
+            <p style="color: #666; font-size: 0.85rem; margin-top: 15px;">
+                In the meantime, consider <a href="https://ko-fi.com/universalvideodownloader" target="_blank" style="color: #4CAF50; text-decoration: underline;">donating on Ko-fi</a>
+            </p>
         </div>
     `;
 
     // Track the attempt even if no ad shown
     trackAdView('placeholder_shown');
 
-    // Auto-close after 3 seconds for placeholder
+    // Auto-close after 4 seconds for placeholder
     setTimeout(() => {
         closeAdModal();
-    }, 3000);
+    }, 4000);
 }
 
 function showCloseButton() {
