@@ -22,27 +22,63 @@ last_download_time = 0
 MIN_DOWNLOAD_INTERVAL = 8  # 8 seconds between downloads - more conservative
 
 def get_ydl_opts():
-    """Get base yt-dlp options with anti-bot measures"""
+    """Get base yt-dlp options with anti-bot measures (2024-2025 optimized)"""
     opts = {
-        'quiet': False,  # Show output for debugging
+        'quiet': False,
         'no_warnings': False,
         'nocheckcertificate': True,
+
+        # 2024-2025 CRITICAL: Use ios, mweb, tv_embedded (most reliable without PO tokens)
         'extractor_args': {
             'youtube': {
-                'player_client': ['android', 'web'],  # Try multiple clients
+                'player_client': ['ios', 'mweb', 'tv_embedded'],  # Updated for 2024-2025
+                'player_skip': ['configs'],  # Skip some requests to reduce rate limiting
+                'skip': ['translated_subs'],  # Reduce unnecessary requests
             }
+        },
+
+        # CRITICAL: Add sleep intervals to mimic human behavior
+        'sleep_interval': 3,
+        'max_sleep_interval': 10,
+        'sleep_requests': 0.5,  # Sleep between API requests
+
+        # Connection optimization
+        'concurrent_fragments': 3,
+        'retries': 10,
+        'fragment_retries': 10,
+        'skip_unavailable_fragments': True,
+
+        # CRITICAL: iOS/Mobile User-Agent (works better than desktop)
+        'http_headers': {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
         },
     }
 
-    # Only use cookies locally where Chrome is installed
-    # Check if Chrome profile exists (Windows/local environment)
-    import platform
-    if platform.system() == 'Windows' or os.path.exists(os.path.expanduser('~/.config/google-chrome')):
-        try:
-            opts['cookiesfrombrowser'] = ('chrome',)
-            print("Using Chrome cookies for authentication")
-        except:
-            pass
+    # CRITICAL: Try cookies file first (MUST HAVE for production)
+    cookies_file = os.path.join(os.path.dirname(__file__), 'cookies.txt')
+    if os.path.exists(cookies_file):
+        opts['cookiefile'] = cookies_file
+        print("✓ Using cookies.txt file for authentication")
+    else:
+        print("⚠ WARNING: No cookies.txt found! Production downloads may fail.")
+        print("   Get cookies: https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc")
+
+        # Only use browser cookies locally where Chrome is installed
+        import platform
+        if platform.system() == 'Windows' or os.path.exists(os.path.expanduser('~/.config/google-chrome')):
+            try:
+                opts['cookiesfrombrowser'] = ('chrome',)
+                print("  Falling back to Chrome browser cookies")
+            except:
+                pass
 
     return opts
 
