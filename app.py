@@ -23,17 +23,28 @@ MIN_DOWNLOAD_INTERVAL = 8  # 8 seconds between downloads - more conservative
 
 def get_ydl_opts():
     """Get base yt-dlp options with anti-bot measures"""
-    return {
+    opts = {
         'quiet': False,  # Show output for debugging
         'no_warnings': False,
         'nocheckcertificate': True,
-        'cookiesfrombrowser': ('chrome',),  # Use cookies from Chrome browser
         'extractor_args': {
             'youtube': {
-                'player_client': ['mediaconnect'],  # Try mediaconnect client
+                'player_client': ['android', 'web'],  # Try multiple clients
             }
         },
     }
+
+    # Only use cookies locally where Chrome is installed
+    # Check if Chrome profile exists (Windows/local environment)
+    import platform
+    if platform.system() == 'Windows' or os.path.exists(os.path.expanduser('~/.config/google-chrome')):
+        try:
+            opts['cookiesfrombrowser'] = ('chrome',)
+            print("Using Chrome cookies for authentication")
+        except:
+            pass
+
+    return opts
 
 def download_with_pytubefix(url, download_type, quality):
     """Download using pytubefix with WEB client"""
