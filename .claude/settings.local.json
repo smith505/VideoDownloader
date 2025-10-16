@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip show:*)",
+      "Bash(yt-dlp:*)",
+      "Bash(python:*)",
+      "WebFetch(domain:cnvmp3.com)",
+      "Bash(pip install:*)",
+      "Bash(curl http://localhost:5000/api/donations)",
+      "Bash(ffmpeg:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
