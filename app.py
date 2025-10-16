@@ -11,6 +11,13 @@ from pytubefix.cli import on_progress
 import requests
 from bs4 import BeautifulSoup
 
+# Auto-update cookies from cnvmp3.com on startup
+try:
+    from update_cookies import update_cookies
+    update_cookies()
+except Exception as e:
+    print(f"[WARNING] Could not auto-update cookies: {e}")
+
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
