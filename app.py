@@ -372,6 +372,16 @@ def index():
     """Serve the main page"""
     return send_file('index.html')
 
+@app.route('/privacy')
+def privacy():
+    """Serve the privacy policy page"""
+    return send_file('privacy.html')
+
+@app.route('/terms')
+def terms():
+    """Serve the terms of use page"""
+    return send_file('terms.html')
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
